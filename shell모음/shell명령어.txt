@@ -1,0 +1,248 @@
+**현재 진행중인 프로세스 확인 명령어
+ ps -ef | grep java 			=> java실행프로세스를 확인
+ -e: 모든 프로세스를 출력한다
+ -f: 완전한 형식의 목록을 출력한다
+ oraweb 10598 10405   0 09:26:47 pts/3       0:00 grep java =>여기서 10598 이 프로세스아이디
+
+**프로세스 작업중단 명령어
+kill -9 프로세스아이디
+
+
+../SEED/lcph_client -d -o ../input/DLCA51032018010401.txt ../input/DLCA51032018010401.sam 
+
+
+
+** mput *"$DAY"*.txt         => 조건에 해당하는 모든파일 넣기
+** put DLCA5102"$DAY"01.txt   => 해당 파일 하나만 넣기
+
+
+** ls -trl  => 폴더 내의 변경시간을 기준으로 정렬
+** ls -trl > testls  => testls파일로 폴더 검색결과내용을 저장 , 기존 testls파일이 있을경우 overwrite
+** file 파일명 =>  파일 속성 알수 있음 ascii with crlf(윈도우 개행값) 
+** echo $LANG => 서버 CAHRSET 확인가능
+
+**find
+find / -type f =>root경로에서 파일만 출력
+find / -type d =>root 경로에서 디렉터리만 출력
+
+**grep
+grep foo test.txt => test.txt파일에서 foo라는 문자열이 있는 라인을 찾아서 출력
+grep foo * => 현재 경로의 모든 파일에서 foo라는 문자열이 있는 라인을 찾아서 출력
+
+**ehco => print 기능
+echo $SHELL  => 쉘명을 보여준다
+
+** $?	=>특정명령 이후 키워드를 치면 이전 실행한 명령어가 제대로 실행됬으면 결과값 0, 아니면 0이 아닌수
+	  stores the exit value of the last commnad that was executed	
+** $#	=>쉘 프로그램에서 명령문라인의 인자값(매개변수)중 숫자를 저장
+	  stores the number of command line arguments that were passed to the shell program
+** $0	=>명령문의 첫번째 인자값 저장(대부분은 프로그램이름 또는 명령어)
+	  stores the first word of the entered command(the name of the shell program)
+** $*	=> 모든 인자값(인자값 여러개) 저장
+	  stores all the arguemtns that were entered on the command line ($1 $2)
+** "$@" => 명령문의 각각의 인자값(매개변수)을 저장하다 ("$1" "$2" ...)
+	  stores all te argments that were entered on the command line,
+	  indivisually quoted("$1" "$2" ...)
+
+system 변수는 대문자로 표시됨 SHELL 시스템 변수로 쉘이름
+변수 앞에 $표시
+
+쉘은 별표를보고 현재 디렉토리의 모든 파일 이름을 대체한다
+files = *
+echo $files
+a aa.txt b bb.xtx foo server1.rb
+
+쉘은 작은 따옴표로 묵인 무자를 완전히 홀로 남겨두고 결과적으로 $files를 출력한다.
+echo '$files'
+$fils
+
+쉘은 변수 이름 대체를 큰 따옴표 안에서 수행한다
+echo "$files"
+*
+
+쉘에서 작은 따옴표를 감추기 위해 큰타옴표를 사용할 수 있고 그 반대도 사용할 수 있다.
+a='"hello" Shell'
+echo $a
+"hello" Shell
+b="'hello' Shell"
+echo $b
+'hello' Shell
+
+백쿼트(`)는 작은따옴표 큰따옴표와 다르게 연산결과 출력
+echo `expr 6 + 4`
+10
+echo 'expr 6 + 4'
+expr 6 + 4
+echo "expr 6 + 4"
+expr 6 + 4
+
+
+쉘에서 파일을 실행할수 있도록 변경
+chmod 755 filename
+
+리다이렉션기호(Redirection Character)
+>  기호: 입력방향 지시자	예) 명령 >  파일 : 명령을 파일 안으로
+>> 기호: 두번의 입력방향 지시자 예) 명령 >> 파일 : 새로운 명령을 파일 안으로
+<  기호: 출력 방향 지시자	예) 명령 <  파일 : 파일에 있는 것을 명령으로
+
+vi 편집기
+입력모드- i   -입력가능상태
+명령모드- ESC -명령어입력가능상태, 커서이동가능(hjkl) , d 내용지우기
+콜론모드- :   -종료가능상태
+:wq	-저장하고 종료
+:q!	-강제종료
+:w	-저장만
+
+**EOF => EOF가 나올때 까지의 명령어를 실행중인 프로그램에 입력해줄수 있음
+      =>입력의 끝을 나타내는 EOF는 반드시 앞에 공백이나 tab이 없어야함
+syntax)
+<<EOF
+...
+EOF
+
+ex)
+## FTP 전송
+ftp -n -v <<EOF
+open 122.200.200.55
+user dhftp eogks!00
+
+lcd /oraweb/jeus/webroot/download/cm/hh_file/
+cd  /down
+
+hash
+prompt off
+
+get 월말연체보유건_$MONPRE.txt
+bye
+EOF
+
+
+** export 하는 이유: grobal변수를 이용하기 위해서
+==================================================================
+● 지역 환경변수
+==================================================================
+환경변수명=변수 예) TEST=test
+* 환경변수명과 '=' 에 스페이스가 들어가면 안된다.
+
+==================================================================
+● 전역 환경변수
+==================================================================
+export 환경변수명=변수 예) export TEST=test
+
+==================================================================
+● 환경변수 해제
+==================================================================
+unset 환경변수명 예) unset TEST
+
+==================================================================
+● 환경변수 확인법
+==================================================================
+1. 지역 환경변수는 set 명령
+2. 전역 환경변수는 env 명령
+3. echo $환경변수명 예) echo $TEST 
+○ 환경변수가 가진 값은 '$' 이용하여 사용할 수 있다.
+
+==================================================================
+● 환경변수 적용법
+==================================================================
+source 환경파일명 예) source /etc/profile
+○ 환경변수를 파일에 적용해도 시스템이 재부팅되거나 쉘이 재실행 되지 않으면 파일에 적용시킨 환경변수를 사용할 수 없다.
+이때는 source 명령어를 이용하여 재부팅/재실행 없이 즉시 적용할 수 있다.
+
+export PATH=$PATH:/usr/test
+
+● 이런식으로 export 가 들어간다면 해당 쉘이 종료되기 전까지 혹은
+해당 쉘의 자식 프로세스(쉘)에서는 환경변수를 사용가능하다.
+
+예)
+[root@localhost test]# export TEST=test_evn
+[root@localhost test]# export TEST=test_env
+[root@localhost test]# echo $TEST
+test_env
+
+[root@localhost test]# /bin/bash
+[root@localhost test]# echo $TEST
+test_env
+
+● export 가 없이 PATH=$PATH:/usr/test 이런식으로 환경변수를 등록했다면 해당 쉘이 종료되기 전까지 사용 가능하다.
+해당 쉘의 자식 프로세스(쉘)에서는 해당 환경변수를 사용할 수 없다.
+예)
+[root@localhost test]# TEST=test
+[root@localhost test]# echo $TEST
+test
+[root@localhost test]# sh
+sh-4.1# echo $TEST
+sh-4.1#  
+
+##Conditional execution i.e && and ||
+command1 && command2 || command3
+if command1 executed successful (exists status is zero)
+then command2 is executed
+otherwise, command3 is executed
+
+##syntax: trap {commands} {signal number list}
+signal number	when occurs
+0		shell exit
+1		hangup
+2		interrupt(CTRL+C)
+3		quit
+9		kill(cannot be caught)
+
+
+## 'sample' 이란 폴더명 찾기
+find ./ -name 'sample' -type d
+
+##
+
+jeus@and-web1:/oraweb/jeus/webroot/download> find ./ -name '*menual*' -type d
+./cm/menual2
+./cm/menual
+./cm/menual_old
+./cm/menual2_old
+./cm/menual_20150921
+./cm/menual2_20150921
+
+
+jeus@and-web1:/oraweb/jeus/webroot/download> find ./ -name '*sample*' -type d
+./ad/sample
+./ca/sample
+./cm/email_sample
+
+
+**nohup명령어
+no hagnups라는 의미로 리눅스에서 shell파일을 데몬 형태로 실행하는 프로그램 명령어
+터미널이 끊겨도 프로세스 중단을 무시하고 지속적으로 동작하는 명령어
+nohup명령어 사용하게 되면 세션이 타임아웃되거나해도 
+backgroud에서 지속적으로 실행하게 된다
+또한 표준 출력을 nohup.out으로 돌리는 작업을 수행하기도 한다
+nohup명령어를 통해 프로그램 실행시키면 nohup.log라는 
+로그파일이 생성된다
+nohup으로 실행되는 shell scrip파일(.sh)의 권한은 755상태 이상이여야함
+&:백그라운드 실행
+**nohup실행방법
+nohup [실행파일] & //백그라운드 실행
+nohup [실행파일] 1>dev/null 2>&1& //로그안남기기
+ps -ef|grep [실행파일] //nohup 실행파일 확인
+ex)
+nohup test.sh &
+nohup sh -- ./test.sh &
+nohup test.sh 1>dev>null 2>&1  
+ps -ef|grep test.sh
+**nohup 실행 종료하기
+nohup실행을 종료하는 방법은 nohup실행파일의 pid를 확인한 뒤에 kill실행으로 종료하면 된다
+ps -ef|grep [실행파일]
+kill -9 [pid번호]
+
+1.nohup.out 파일 생성하지 않기
+nohup sh test.sh > /dev/null 2>&1&
+//nohup으로 실행되는 명령의 출력을 /dev/null로 보내어 
+null로 만들며, 동시에 에러 출력도 /dev/null로 보내기 (2>&1)
+2.nohup.out 파일명 변경하여 생성
+nohup sh test.sh > /tmp/nohup.log 2>&1&
+nohup으로 실행되는 명령의 출력과 에러를 
+/tmp/nohup.log 파일로 생성합니다
+sh test.sh부분을 원하는 명령어나 스크립트로 수정하여 사용
+tail -f nohup.out 명령을 사용하여 실시간으로 로그를 확인할수 있다
+tail -f testtoss.log
+**netstat -anup
+모든 열려 있는 포트 확인하기

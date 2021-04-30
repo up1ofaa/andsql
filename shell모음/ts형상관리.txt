@@ -1,0 +1,70 @@
+1. 형상관리
+76번 
+1) /oraweb/batch/classes/
+tossDemon.sh
+toss폴더
+com.and.util폴더
+com.and.batch폴더
+
+//운영계 ip, port 변경
+toss.tossDemon
+com.and.batch.BatchConst
+com.and.batch.log
+com.and.util.CommConst
+util.CommonUtil
+com.CommBatch
+/oraweb/batch/lib/
+
+2) /oraweb/batch/conf/
+//운영계 ip, port 변경
+tossConfig.properties
+
+2.로그보는방법
+1)로그 명령어봄
+oraweb/jeus
+ls -al
+vi .profile
+2)로그파일확인하기
+/oraweb/batch/logs/toss/
+error.log => 하루치로그 //logger.err
+stdout.logg_날짜          //logger.info
+
+3. shell 관리
+tail -f testtoss.log
+ps -ef|grep toss.tossDemon
+kill -9 pid
+//tossDemon.sh에서 아래 로그파일은 null로 생성안하고
+// ctrl+c에도 실행이 중지 안되고 계속실행되게끔 함 (뒤의 명령어)
+nohup java toss.tossDemon 1>/dev/null 2>&1 &  
+
+4. upload 파일
+/oraweb/batch/classes/
+tossDemon.sh
+/oraweb/batch/classes/toss
+log
+abstractInfoObject
+InfoData
+tossClientSocketManager
+tossDemon [운영/개발 변경port]
+tossPropertyManager
+tossQueryTimer
+tossSocketManager
+tossSocketThread
+transDesc
+TS_000000
+TS_130003
+TS_160003
+TS_190003
+TS_220003
+TS_240003
+TS_280003
+TS_290003
+/oraweb/batch/conf/
+tossConfig.properties [운영/개발 변경port]
+
+**테스트
+chmod 755 tossDemon.sh
+tossDemon.sh
+ps -ef|grep toss.tossDemon
+kill -9 pid   
+java -classpath . toss.tossSendTest
